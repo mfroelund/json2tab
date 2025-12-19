@@ -1,0 +1,8 @@
+type_id,type_code,turbine_model
+8021,V90,Vestas V90-3.0MW
+9999,V90,Vestas V90-3.0MW
+407,FO_407,DeWind D4 48/600
+607,FO_607,DeWind D6 62/1250
+807,FO_807,DeWind D8
+11702,FO_11702,Nordex N117/2400
+11802,FO_11802,Nordex N117/3600
