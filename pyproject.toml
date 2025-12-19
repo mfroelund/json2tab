@@ -1,0 +1,269 @@
+[tool.poetry]
+  authors = [
+    "Jacob Snoeijer (KNMI), Irene Schicker (GeoSphere), Dieter Van Den Bleeken (KMI)",
+  ]
+  description = "Converter to crop global JSON windturbine database to domain specific TAB-file"
+  name = "json2tab"
+  readme = "README.md"
+  repository = "https://github.com/destination-earth-digital-twins/json2tab"
+  version = "0.0.1"
+
+[tool.poetry.scripts]
+  json2tab = "json2tab.__main__:main"
+
+[build-system]
+  build-backend = "poetry.core.masonry.api"
+  requires = ["poetry-core >= 1.0.0"]
+
+[tool.poetry.dependencies]
+  numpy = "^1.22.4"
+  pandas = ">=1.4.0,<3.0.0"
+  pyproj = "^3.3.0, !=3.5.0"
+  python = ">=3.10,<3.13"
+  pyyaml = "^6.0"
+  tabulate = "^0.9"
+  tomli = "^2.0.1"
+
+[tool.poetry.group.linting]
+  optional = true
+
+[tool.poetry.group.linting.dependencies]
+  black = {extras = ["jupyter"], version = "^23.10.0"}
+  flake8 = ">=4.0.1, <5.0.0"
+  flakeheaven = "^3.3.0"
+  isort = "^5.12.0"
+  ruff = "^0.1.0"
+  toml-formatter = {git = "https://github.com/paulovcmedeiros/toml-formatter"}
+  # flake8 plugins for stuff not yet on ruff.
+  # See <https://github.com/astral-sh/ruff/issues/458>.
+  poethepoet = {extras = ["poetry-plugin"], version = ">=0.24.4"}
+  pydoclint = "^0.3.8" # Replaces darglint, but is maintained & faster
+
+[tool.poetry.group.locationmerger]
+  optional = true
+
+[tool.poetry.group.locationmerger.dependencies]
+  folium = "^0.20.0"
+  fuzzywuzzy = "^0.18.0"
+  geopandas = "^1.1.1"
+  geopy = "^2.4.1"
+  lxml = "^6.0.2"
+  openpyxl = "3.1.5"
+  psutil = "^7.1.0"
+  scikit-learn = "^1.7.0"
+  scipy = "^1.8.0"
+  shapely = "^2.1.1"
+
+[tool.poetry.group.osmrequest]
+  optional = true
+
+[tool.poetry.group.osmrequest.dependencies]
+  requests = "^2.32.5"
+
+[tool.poetry.group.plotting]
+  optional = true
+
+[tool.poetry.group.plotting.dependencies]
+  cartopy = "^0.24.1"
+  matplotlib = "^3.10.3"
+
+[tool.poetry.group.test]
+  optional = true
+
+[tool.poetry.group.test.dependencies]
+  pytest = "^7.2.2"
+  pytest-cov = "^4.1.0"
+  pytest-mock = "^3.7.0"
+  pytest-profiling = "^1.7.0"
+  pytest-timeout = "^2.1.0"
+  pytest-xdist = "^3.2.0"
+
+##################
+# Linter configs #
+##################
+
+[tool.black]
+  exclude = "json2tab/get_wf101_manufacturer.py"
+  line-length = 90
+
+[tool.flakeheaven]
+  base = ".flakeheaven.toml"
+
+[tool.isort]
+  line_length = 90
+  profile = "black"
+
+[tool.ruff]
+  extend-exclude = [
+    "tools/fortran2tab",
+    "json2tab/get_wf101_manufacturer.py",
+    "json2tab/tools/WindTurbineLocationMerger.py",
+    "json2tab/DefaultTurbineSelector.py",
+    "json2tab/ModelNameParser.py",
+    "json2tab/SimpleVisualizer.py",
+    "json2tab/DimensionLocationMapper.py",
+  ]
+  ignore = [
+    "E712",
+    "S324",
+    "PERF203",
+    "PLR0911",
+    "S311",
+    "ERA001",
+    "G004",
+    "T201",
+    "N806",
+    "C901",
+    "D105",
+    "EXE001",
+    "PLE1205",
+    "PLR0912",
+    "PLR0915",
+    "PLR0913",
+    "PLR2004",
+    "RET504",
+    "RUF012",
+  ]
+  line-length = 90
+  select = [
+    "A",
+    "ARG",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "D",
+    "E",
+    "ERA",
+    "EXE",
+    "F",
+    "G",
+    "I",
+    "N",
+    "PD",
+    "PERF",
+    "PIE",
+    "PL",
+    "PT",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "T20",
+    "W",
+  ]
+
+[tool.ruff.per-file-ignores]
+  # S101: Use of `assert` detected
+  "scheduler.py" = ["T201"]
+  "tests/**/*.py" = [
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "E501",
+    "S101",
+    "SLF001",
+  ]
+
+[tool.ruff.pydocstyle]
+  convention = "google"
+
+[tool.toml-formatter]
+  indentation = 2
+  section_order_overrides = [
+    "^general$",
+    "general.*",
+    "^tool.poetry$",
+    "^tool.poetry.scripts$",
+    "build-system",
+    "tool.poetry.*",
+  ]
+
+##################
+# pytest configs #
+##################
+
+[tool.pytest.ini_options]
+  addopts = "-v --failed-first --cov-report=term-missing --cov-report=term:skip-covered --cov-report=xml:.coverage.xml --cov=./"
+  log_cli_level = "INFO"
+  testpaths = ["tests/unit"]
+
+####################################
+# Leave configs for `poe` separate #
+####################################
+
+[tool.poe]
+  poetry_command = "devtools"
+
+[tool.poe.tasks]
+  # Doc-related stuff
+  _doc_build.shell = """
+    deode doc config >| docs/markdown_docs/config.md
+    sphinx-apidoc deode -o docs/ --force --no-toc --module-first
+    sphinx-build docs docs/_build/
+    touch docs/_build/.nojekyll
+  """
+  # Linting tasks
+  _black = "black ."
+  _isort = "isort ."
+  _ruff = "ruff check ."
+  _toml_formatter = "toml-formatter check ."
+  # Test-related tasks
+  pytest = "pytest"
+  # Tasks to be run as pre-push checks
+  pre-push-checks = ["lint", "doc clean", "doc build", "pytest"]
+
+[tool.poe.tasks._flake8]
+  cmd = "flakeheaven lint ."
+  env = {FLAKEHEAVEN_CACHE_TIMEOUT = "0"}
+
+[tool.poe.tasks.doc]
+  args = [
+    {name = "doc_action", positional = true, help = "{all,clean,build,view}", default = "all"},
+  ]
+  control = {expr = "doc_action"}
+
+[[tool.poe.tasks.doc.switch]]
+  case = "all"
+  sequence = ["doc build", "doc view"]
+
+[[tool.poe.tasks.doc.switch]]
+  case = "clean"
+  cmd = "rm -rf docs/_build/ docs/deode.rst docs/markdown_docs/config.md"
+
+[[tool.poe.tasks.doc.switch]]
+  case = "build"
+  sequence = ["doc clean", "_doc_build"]
+
+[[tool.poe.tasks.doc.switch]]
+  case = "view"
+  sequence = [
+    {shell = "[ ! -f docs/_build/index.html ] && poetry devtools doc build || exit 0"},
+    {script = "webbrowser:open('docs/_build/index.html')"},
+  ]
+
+[tool.poe.tasks.lint]
+  args = [{name = "fix", type = "boolean", default = false}]
+  control = {expr = "fix"}
+
+[[tool.poe.tasks.lint.switch]]
+  case = "True"
+  sequence = ["_isort", "_black", "_ruff --fix", "_flake8", "_toml_formatter --fix"]
+
+[[tool.poe.tasks.lint.switch]]
+  case = "False"
+  sequence = [
+    "_isort --check-only",
+    "_black --check --diff",
+    "_ruff",
+    "_flake8",
+    "_toml_formatter",
+  ]

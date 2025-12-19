@@ -1,0 +1,10 @@
+turbine_id,original_name,manufacturer,diameter,radius,height,power,source,is_offshore,type_code,type,additional_info
+BE_Senvion-5M,Senvion-5M,SENVION,126,63,95,5,Belgian,True,,,"Cut-in: 3.5, Cut-out: 25"
+BE_Senvion-6M,Senvion-6M,SENVION,126,63,96,6.15,Belgian,True,,,"Cut-in: 3.5, Cut-out: 30"
+BE_Siemens-D7,Siemens-D7,SIEMENS,154,77,196,7.35,Belgian,True,,,"Cut-in: 3.0, Cut-out: 25"
+BE_SG-D8,SG-D8,SIEMENS,167,83.5,196,8.4,Belgian,True,,,"Cut-in: 3.0, Cut-out: 28"
+BE_V90,V90,VESTAS,90,45,72,3,Belgian,True,,,"Cut-in: 3.5, Cut-out: 25"
+BE_MVOW-V112,MVOW-V112,VESTAS,112,56,135,3.3,Belgian,True,,,"Cut-in: 3.0, Cut-out: 25"
+BE_MVOW-V112,MVOW-V112,VESTAS,112,56,127,3,Belgian,True,,,"Cut-in: 3.0, Cut-out: 25"
+BE_V164,V164,VESTAS,164,82,180,8.3,Belgian,True,,,"Cut-in: 4.0, Cut-out: 25"
+BE_V164-9.5,V164-9.5,VESTAS,164,82,180,9.5,Belgian,True,,,"Cut-in: 3.0, Cut-out: 25"
